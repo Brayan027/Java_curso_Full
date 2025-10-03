@@ -35,7 +35,7 @@
                 class="btn btn-warning btn-sm me-3">Editar</a>
 
             <a th:href="@{/eliminar/{id}(id=${contacto.idContacto})}"
-            class="btn btn-danger btn-sm me-3">Eliminar</a>
+            class="btn btn-danger btn-sm me-3 btn-eliminar">Eliminar</a>
             </div>
 
 
@@ -44,7 +44,28 @@
 
     </tbody>
 </table>
-</div>
+</div><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.querySelectorAll(".btn-eliminar").forEach(boton => {
+      boton.addEventListener("click", function(event) {
+        event.preventDefault();
+        const url = this.getAttribute("href"); // ya es la URL generada por Thymeleaf
+
+        Swal.fire({
+          title: "¿Seguro que deseas eliminar este contacto?",
+          text: "Esta acción no se puede deshacer",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, eliminar",
+          cancelButtonText: "Cancelar"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = url; // usar la URL ya generada
+          }
+        });
+      });
+    });
+</script>
 
 
 <div th:replace="~{fragmentos/pie_de_pagina::pie}">
